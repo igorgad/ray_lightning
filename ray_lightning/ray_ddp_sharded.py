@@ -58,8 +58,7 @@ class RayShardedPlugin(RayPlugin):
     def lightning_module(self) -> LightningModule:
         return unwrap_lightning_module_sharded(self._model)
 
-    def pre_backward(self, closure_loss: torch.Tensor, should_accumulate: bool,
-                     optimizer: Optimizer, opt_idx: int):
+    def pre_backward(self, closure_loss: torch.Tensor):
         pass
 
     def post_training_step(self):
