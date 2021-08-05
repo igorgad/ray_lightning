@@ -92,7 +92,7 @@ class RayPlugin(DDPSpawnPlugin):
                  num_workers: int = 1,
                  num_cpus_per_worker: int = 1,
                  use_gpu: bool = False,
-                 resources: dict = None,
+                 resources: Dict = None,
                  init_hook: Callable = None,
                  **ddp_kwargs: Union[Any, Dict[str, Any]]):
         if not ray.is_initialized():
