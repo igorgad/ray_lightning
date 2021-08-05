@@ -92,6 +92,7 @@ class RayPlugin(DDPSpawnPlugin):
                  num_workers: int = 1,
                  num_cpus_per_worker: int = 1,
                  use_gpu: bool = False,
+                 resources: dict = None,
                  init_hook: Callable = None,
                  **ddp_kwargs: Union[Any, Dict[str, Any]]):
         if not ray.is_initialized():
@@ -105,6 +106,7 @@ class RayPlugin(DDPSpawnPlugin):
         self.num_workers = num_workers
         self.num_cpus_per_worker = num_cpus_per_worker
         self.use_gpu = use_gpu
+        self.resources = resources
         self.workers = []
         self.init_hook = init_hook
         self._local_rank = 0
@@ -113,7 +115,8 @@ class RayPlugin(DDPSpawnPlugin):
         """Creates Ray actor."""
         worker = RayExecutor.options(
             num_cpus=self.num_cpus_per_worker,
-            num_gpus=int(self.use_gpu)).remote()
+            num_gpus=int(self.use_gpu),
+            resources=self.resources).remote()
         return worker
 
     def setup(self, model: LightningModule):
