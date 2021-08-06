@@ -110,7 +110,7 @@ class RayPlugin(DDPSpawnPlugin):
         self.use_gpu = use_gpu
         self.resources = resources
         self.accelerator_type = accelerator_type
-        self.remote_options = remote_options
+        self.remote_options = remote_options if remote_options else {}
         self.workers = []
         self.init_hook = init_hook
         self._local_rank = 0
