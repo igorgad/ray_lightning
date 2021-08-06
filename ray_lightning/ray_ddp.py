@@ -94,6 +94,7 @@ class RayPlugin(DDPSpawnPlugin):
                  use_gpu: bool = False,
                  resources: Dict = None,
                  accelerator_type: str = None,
+                 remote_options: Dict = None,
                  init_hook: Callable = None,
                  **ddp_kwargs: Union[Any, Dict[str, Any]]):
         if not ray.is_initialized():
@@ -109,6 +110,7 @@ class RayPlugin(DDPSpawnPlugin):
         self.use_gpu = use_gpu
         self.resources = resources
         self.accelerator_type = accelerator_type
+        self.remote_options = remote_options
         self.workers = []
         self.init_hook = init_hook
         self._local_rank = 0
@@ -119,7 +121,8 @@ class RayPlugin(DDPSpawnPlugin):
             num_cpus=self.num_cpus_per_worker,
             num_gpus=int(self.use_gpu),
             resources=self.resources,
-            accelerator_type=self.accelerator_type).remote()
+            accelerator_type=self.accelerator_type,
+            **self.remote_options).remote()
         return worker
 
     def setup(self, model: LightningModule):
