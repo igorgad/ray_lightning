@@ -94,7 +94,7 @@ class RayPlugin(DDPSpawnPlugin):
                  use_gpu: bool = False,
                  resources: Dict = None,
                  accelerator_type: str = None,
-                 remote_options: Dict = None,
+                 remote_options: Dict = {},
                  init_hook: Callable = None,
                  **ddp_kwargs: Union[Any, Dict[str, Any]]):
         if not ray.is_initialized():
@@ -110,7 +110,7 @@ class RayPlugin(DDPSpawnPlugin):
         self.use_gpu = use_gpu
         self.resources = resources
         self.accelerator_type = accelerator_type
-        self.remote_options = remote_options if remote_options else {}
+        self.remote_options = remote_options
         self.workers = []
         self.init_hook = init_hook
         self._local_rank = 0
